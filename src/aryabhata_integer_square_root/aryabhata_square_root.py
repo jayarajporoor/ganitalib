@@ -13,7 +13,7 @@ def find_two_digit_square(current):
             break
     return num, two_digit_squares[num]
 
-def aryabhata_square_root(n, index=-1, last_quotient=-1, reminder=0, working_result=0):
+def aryabhata_integer_square_root(n, index=-1, last_quotient=-1, reminder=0, working_result=0):
     def is_varga(idx):
         return (idx % 2) == 0
     current = 0
@@ -42,9 +42,14 @@ def aryabhata_square_root(n, index=-1, last_quotient=-1, reminder=0, working_res
     if quotient is not None:
         working_result = working_result * 10 + quotient
     if index > 0:
-        return aryabhata_square_root(n, index - 1, quotient, reminder, working_result)
+        return aryabhata_integer_square_root(n, index - 1, quotient, reminder, working_result)
     else:
         return working_result
+
+def sridhara_square_root(s, p):
+    s = ('0'* (2*p)) + s
+    res = aryabhata_integer_square_root(s)
+    return res / (10**p)
 
 def str_reverse(s):
     return "".join(reversed(s) )     
@@ -52,6 +57,18 @@ def str_reverse(s):
 if __name__ == "__main__":
     import sys
     import math
-    res = aryabhata_square_root( str_reverse(sys.argv[1]) )
-    print( res )
-    assert res == int(math.sqrt(int(sys.argv[1])))
+    n_str = str_reverse(sys.argv[1])
+    if len(sys.argv) > 2:
+        p = int(sys.argv[2])
+    else:
+        p = 3
+    res0 = aryabhata_integer_square_root(n_str)
+    res1 = sridhara_square_root(n_str, p=p)
+    print("-----------------------")
+    print( "Aryabhata integer square root:\t\t\t", res0)
+    print("Sridhara's approximation for non-squares:\t", res1 )
+    lib_res = math.sqrt(int(sys.argv[1]))
+    print("-----------------------")
+    print("Library Result Rounded:\t\t\t\t", round(lib_res))
+    print("Library Result Full:\t\t\t\t", lib_res)
+    print("-----------------------")
