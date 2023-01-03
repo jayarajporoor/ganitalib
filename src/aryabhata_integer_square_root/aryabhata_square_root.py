@@ -3,14 +3,17 @@ two_digit_squares = [0, 1, 4,  9, 16, 25, 36, 49, 64, 81]
 
 def find_two_digit_square(current):
     num = 0
-    for m in range(len(two_digit_squares)-1, -1, -1):
-        m_square = two_digit_squares[m]
-        if m_square < current:
-            num = m + 1
-            break
-        elif m_square == current:
-            num = m
-            break
+    if two_digit_squares[-1] <= current:
+        num = len(two_digit_squares) - 1
+    else:
+        for m in range(len(two_digit_squares)-1, -1, -1):
+            m_square = two_digit_squares[m]
+            if m_square < current:
+                num = m + 1
+                break
+            elif m_square == current:
+                num = m
+                break
     return num, two_digit_squares[num]
 
 def aryabhata_integer_square_root(n, index=-1, last_quotient=-1, reminder=0, working_result=0):
